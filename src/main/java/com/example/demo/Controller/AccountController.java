@@ -1,9 +1,12 @@
 package com.example.demo.Controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +45,12 @@ public class AccountController {
 
 //	新規登録処理
 	@RequestMapping(value = "/newAccount", method = RequestMethod.POST)
-	public ModelAndView newAccount(@RequestParam("name") String name, @RequestParam("address") String address,
-			@RequestParam("tel") String tel, @RequestParam("email") String email, @RequestParam("pass") String pass,
+	public ModelAndView newAccount(
+			@RequestParam("name") String name,
+			@RequestParam("address") String address,
+			@RequestParam("tel") String tel, 
+			@RequestParam("email") String email, 
+			@RequestParam("pass") String pass,
 			ModelAndView mv) {
 //		すべてン項目に対して未入力チェック
 		if (isNull(name) == true || 
@@ -54,14 +61,25 @@ public class AccountController {
 			
 			mv.addObject("message", "すべての項目に入力をしてください");
 			mv.setViewName("newAccount");
+		}else {
+//			ユーザー情報からデータを取得
+			List<Users> userlist = usersRepository.findAllByName(name);	
+//		同一データがあった場合再入力
 
-		} else {
+////			取得できた場合登録しない
+			if(userlist.size()>0) {
+				mv.addObject("message", "ほかの情報を入力をしてください");
+				mv.setViewName("newAccount");
+			}else {
+//			大丈夫な場合登録する
+		
 //		Usersテーブルに入力したデータを登録
 			Users user = new Users(name, address, tel, email, pass);
 			usersRepository.saveAndFlush(user);
 
 			mv.addObject("name", name);
-			mv.setViewName("showItem");
+			mv.setViewName("login");
+			}
 		}
 
 		return mv;
@@ -87,40 +105,76 @@ public class AccountController {
 			mv.addObject("message", "すべての項目に入力をしてください");
 			mv.setViewName("login");
 
+
 		} else {
 //		Usersテーブルに一致するか確認しログインし、商品一覧表示
 			Users user = usersRepository.findByNameAndPass(name, pass);
 			
 //		入力内容がUsersテーブルのデータと一致しなかった場合再入力させる
-			
 			if(user==null) {
 				mv.addObject("message", "入力されたユーザー情報は登録されていません。");
 				mv.setViewName("login");
+
 			}else {
-//		入力内容が登録されていた場合ログインし、商品一覧表示
-				if(itemService.getAllItems() == null) {
-					mv.addObject("itemList", itemService.getAllItems());
-				} else {
-					mv.addObject("message", "現在販売されている商品はありません");
-					
-				}
-				session.setAttribute("userInfo", user);
 				
-				mv.setViewName("showItem");
+//		入力内容が登録されていた場合ログインし、商品一覧表示
+				session.setAttribute("userInfo", user);
+				mv.setViewName("redirect:itemList");
+
 			}
 	
 		}
 
 		return mv;
 	}
+	
+//	ユーザー情報の確認
+	@RequestMapping("/accountInfo")
+	public String accountInfo() {
+		return "accountInfo";
+	}
+	
+	
+//	ユーザー情報更新ページ
+	@RequestMapping("/editAccount")
+	public String editAccount() {
 
+
+		return "editAccount";
+	}
+	
+//	ユーザー情報更新処理
+	@RequestMapping(value="/editAccount/{code}", method=RequestMethod.POST)
+	public ModelAndView editAccount(
+			@PathVariable(name="code") Integer code,
+			@RequestParam(name="name") String name,
+			@RequestParam(name="address") String address,
+			@RequestParam(name="tel") String tel,
+			@RequestParam(name="email") String email,
+			ModelAndView mv) {
+		
+		Users user = usersRepository.findById(code).get();
+//		更新項目に値を入れる
+		user.setName(name);
+		user.setAddress(address);
+		user.setTel(tel);
+		user.setEmail(email);
+
+
+		usersRepository.saveAndFlush(user);
+		
+		mv.setViewName("/accountInfo");
+		
+		session.setAttribute("userInfo", user);
+		
+		return mv;
+	}
 	
 
-//	商品一覧画面を表示
-//	@RequestMapping("/showItem")
-//	public String showItem() {
-//		return "showItem";
-//	}
+	@RequestMapping("/logout")
+	public String logout() {
+		return login();
+	}
 
 
 	public boolean isNull(String insert) {
@@ -130,10 +184,8 @@ public class AccountController {
 		return false;
 	}
 	
+
 	
 	
-	@RequestMapping("/logout")
-	public String logout() {
-		return login();
-	}
+	
 }

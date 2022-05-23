@@ -21,6 +21,9 @@ public class ItemService {
 			
 		return itemsRepository.findAll();
 	}
+	
+
+	
 
 	
 }

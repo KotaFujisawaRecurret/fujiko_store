@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>購入情報の確認</title>
+</head>
+<body>
+
+<h1>購入情報の確認</h1>
+<h3>以下の商品と購入するアカウント情報で購入しますか？？</h3>
+<table border="1">
+	<!-- タイトル -->
+	<tr>
+		<th>No</th>
+		<th>商品名</th>
+		<th>価格</th>
+		<th>個数</th>
+		<th>小計</th>
+	</tr>
+	<!-- アイテム一覧　-->	
+	<tr th:each="item : ${items}">
+		<td th:text="${item.value.code}"></td>
+		<td th:text="${item.value.name}"></td>
+		<td th:text="${item.value.price}"></td>
+		<td th:text="${item.value.stock}"></td>
+		<td th:text="${item.value.price*item.value.stock}"></td>
+
+	</tr>
+	
+	<!-- 総計 -->
+	<tr>
+		<td colspan="5" align="right" th:text="|総計：${total}円|"> </td>
+	</tr>
+</table>
+	<form action="/purchaseCart/result" method="post">
+		<table>
+			<tr>
+				<td>お名前</td>
+				<td th:text="${session.userInfo.name}">
+				</td>
+			</tr>
+			<tr>
+				<td>住所</td>
+				<td th:text="${session.userInfo.address}">
+			</tr>
+			<tr>
+				<td>電話番号</td>
+				<td th:text="${session.userInfo.tel}"></td> 
+			</tr>
+			<tr>
+				<td>e-mail</td>
+				<td th:text="${session.userInfo.email}"></td>
+			</tr>
+		</table>
+	<!-- 	<a href="/purchaseCartResult">この内容で注文"</a> -->
+		<input type="submit" value="この内容で注文">
+	</form>
+
+
+
+</body>
+</html>

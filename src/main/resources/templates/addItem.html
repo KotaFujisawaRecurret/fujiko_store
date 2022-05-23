@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>出品ページ</title>
+</head>
+<body>
+
+<h1>商品出品ページ</h1>
+
+	<span th:text="${message}" style="color: red;"></span>
+	<form action="/addItem" method="post">
+	
+		<p>商品名：<input type="text" name="name"/></p>
+		<p>カテゴリー：<input type="text" name="categoryKey"/></p>
+		<p>価格：<input type="text" name="price"/></p>
+		<p>画像：<input type="text" name="picture"/></p>
+		<p>在庫数：<input type="text" name="stock"/></p>
+		<p>配達日数：<input type="text" name="delivaryDays"/></p>
+		
+		<p><input type="submit" value="出品する"></p>
+	
+	</form>
+	
+	<a href="/itemList">商品一覧に戻る</a>
+
+</body>
+</html>

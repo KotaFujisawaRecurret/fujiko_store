@@ -6,23 +6,34 @@
 </head>
 <body>
 	<span><a href="/logout">ログアウト</a></span>
-	<!-- TODO session情報に変換 -->
-	<p th:text="|いらっしゃいませ${name}さん|"></p>
+	<span><a href="/accountInfo">ユーザー情報の確認</a></span>
 	
+	<p th:if="${addItemResult}" style="border-bottom: 1px solid gray;">
+		<span>商品の登録が完了しました</span>
+	</p>
+	
+	<p th:if="${deleteItemResult}"style="border-bottom: 1px solid gray;">
+		<span>商品が削除されました</span>
+	</p>
+	
+	<!-- TODO session情報に変換 -->
+	<p th:text="|いらっしゃいませ${session.userInfo.name}さん|"></p>
+	<br/>
+
 	<p th:text="${message}"></p>
-	<table th:unless ="${itemList == 0}">
+	
+	<p><a href="/addItem">商品を出品する</a>
+	
+	<table border="1"  th:each="item:${itemList}"><!-- th:unless ="${itemList == 0}" -->
 		<tr>
-
-			<th></th>
-			<th>商品名</th>
-			<th>値段</th>
-
+			<td>  <img th:src="|/${item.picture}|" /></td>
 		</tr>
-		<tr th:each="item:${itemList}">
-			<td >gazou </td>
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.price}"></td>
-		</tr>
+		<tr>
+			<td th:text="|商品名：${item.name}|"></td>
+			<td th:text="|価格：${item.price}|"></td>
+			<td><a th:href="|/itemDetail/${item.code}|">詳細を確認</a></td>
+			
+		</tr> 
 	</table>
 
 </body>

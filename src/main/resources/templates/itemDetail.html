@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品詳細</title>
+</head>
+<body>
+
+<span th:text="${message}"></span>
+<!-- 選択した商品名表示 -->
+<h1 th:text="${item.name}"></h1>
+
+<!-- 選択した商品の詳細を表示-->
+<p>
+	<span><img th:src="|/${item.picture}|" /></span>
+	<br/>
+	<span th:text="${item.name}"></span>
+	<br/>
+	<span th:text="${item.categoryKey}"></span>
+	<br/>
+	<span th:text="${item.price}"></span>
+	<br/>
+	<span th:text="${item.stock}"></span>
+	<br/>
+</p>
+
+<p th:if="${item.sellerUserCode == session.userInfo.code}">
+	<a th:href="|/delete/${item.code}|">この商品を削除</a>
+	<a th:href="|/item/edit/${item.code}|">この商品を更新</a>
+</p>
+
+<p>
+		
+	<a th:href="|/cart/add/${item.code}|">カートに追加</a>
+	<a href="/itemList">商品一覧に戻る</a>
+</p>
+
+</body>
+</html>

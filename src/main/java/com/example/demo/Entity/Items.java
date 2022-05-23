@@ -4,12 +4,18 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 @Entity
 @Table(name="items")
 public class Items {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="code")
+	private Integer code;
 	@Column(name="name")
 	private String name;
 	@Column(name="price")
@@ -29,6 +35,56 @@ public class Items {
 	@Column(name="delete_flag")
 	private Integer deleteFlag;
 	
+	@Transient
+	private Integer quantity;
+	
+	
+	public Items(){
+		
+	}
+	
+	public Items(String name, Integer price, String picture, Integer stock, Integer categoryKey,
+			Integer delivaryDays, Integer sellerUserCode) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.picture = picture;
+		this.stock = stock;
+		this.categoryKey = categoryKey;
+		this.delivaryDays = delivaryDays;
+		this.sellerUserCode = sellerUserCode;
+		this.date = new Date();
+		this.deleteFlag = 0;
+
+	}
+	public Items(String name, Integer price, String picture, Integer stock, Integer categoryKey,
+			Integer delivaryDays) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.picture = picture;
+		this.stock = stock;
+		this.categoryKey = categoryKey;
+		this.delivaryDays = delivaryDays;
+
+		
+	}
+	public Items(Integer code, String name, Integer price, String picture, Integer stock, Integer categoryKey,
+			Integer delivaryDays, Integer sellerUserCode, Date date, Integer deleteFlag) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.price = price;
+		this.picture = picture;
+		this.stock = stock;
+		this.categoryKey = categoryKey;
+		this.delivaryDays = delivaryDays;
+		this.sellerUserCode = sellerUserCode;
+		this.date = new Date();
+		this.deleteFlag = deleteFlag;
+	}
+	
+
 	
 	
 	public String getName() {
@@ -85,6 +141,20 @@ public class Items {
 	public void setDeleteFlag(Integer deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
+	public Integer getCode() {
+		return code;
+	}
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+
 
 }
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>アカウント情報の確認</title>
+</head>
+<body>
+
+	<table>
+		<tr>
+			<td>お名前</td>
+			<td th:text="${session.userInfo.name}">
+			</td>
+		</tr>
+		<tr>
+			<td>住所</td>
+			<td th:text="${session.userInfo.address}">
+		</tr>
+		<tr>
+			<td>電話番号</td>
+			<td th:text="${session.userInfo.tel}"></td> 
+		</tr>
+		<tr>
+			<td>e-mail</td>
+			<td th:text="${session.userInfo.email}"></td>
+		</tr>
+	</table>
+	
+	<a href="/editAccount">アカウント情報の更新</a>
+	<a href="/itemList">商品一覧に戻る</a>
+
+
+
+</body>
+</html>
