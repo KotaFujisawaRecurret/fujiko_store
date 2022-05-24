@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.Entity.Cart;
@@ -36,14 +37,16 @@ public class CartController {
 	@RequestMapping("/cart/add/{code}")
 	public ModelAndView addCart(
 			@PathVariable("code") int code,
+			@RequestParam("quantity") int quantity,
 			ModelAndView mv) {
 //		カートの情報を取得
 		Cart cart=getCart(); 
 
 //		商品コードをもとにアイテム情報を取得
 		Items item = itemsRepository.getById(code);
+		
 //		カート情報にアイテム情報を追加
-		cart.addCart(item, 1);
+		cart.addCart(item, quantity);
 		
 		mv.setViewName("addComp");
 		return mv;
@@ -78,7 +81,8 @@ public class CartController {
 			) {
 //		カートの情報を取得
 		Cart cart =getCart();
-//TODO 個数を減らすように調整
+		
+
 //		カートの中からコードの一致するアイテムを削除
 		cart.deleteCart(code);
 		

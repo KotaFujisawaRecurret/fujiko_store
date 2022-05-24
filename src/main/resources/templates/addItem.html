@@ -12,7 +12,13 @@
 	<form action="/addItem" method="post">
 	
 		<p>商品名：<input type="text" name="name"/></p>
-		<p>カテゴリー：<input type="text" name="categoryKey"/></p>
+		<p>カテゴリー：	<select name="categoryKey">
+							<option value="">カテゴリを選択</option>
+							<option th:each="category: ${categoriesList}"
+									 th:value="${category.code}"
+									 th:text="${category.name}"
+									 ></option>
+						</select></p>
 		<p>価格：<input type="text" name="price"/></p>
 		<p>画像：<input type="text" name="picture"/></p>
 		<p>在庫数：<input type="text" name="stock"/></p>

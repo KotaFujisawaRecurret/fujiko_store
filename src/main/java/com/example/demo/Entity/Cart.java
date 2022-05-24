@@ -14,17 +14,21 @@ public class Cart {
 
 	public void addCart(Items item, int quantity) {
 		Items existedItem = items.get(item.getCode());
+		
 
 //	アイテムが存在しない場合は追加
 		if (existedItem == null) {
 //		数量を設定
+			quantity = (item.getStock() - quantity < 0) ? item.getStock() : quantity;
 			item.setQuantity(quantity);
 //		リストに追加
 			items.put(item.getCode(), item);
 
 		} else {
 //	アイテムが存在する場合は数量のみ追加
-			existedItem.setQuantity(existedItem.getQuantity() + quantity);
+			quantity += existedItem.getQuantity();
+			quantity = (existedItem.getStock() - quantity < 0) ? existedItem.getStock() : quantity;
+			existedItem.setQuantity(quantity);
 		}
 
 		recalcTotal();

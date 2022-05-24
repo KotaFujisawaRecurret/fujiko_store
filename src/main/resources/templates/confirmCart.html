@@ -23,8 +23,8 @@
 		<td th:text="${item.value.code}"></td>
 		<td th:text="${item.value.name}"></td>
 		<td th:text="${item.value.price}"></td>
-		<td th:text="${item.value.stock}"></td>
-		<td th:text="${item.value.price*item.value.stock}"></td>
+		<td th:text="${item.value.quantity}"></td>
+		<td th:text="${item.value.price*item.value.quantity}"></td>
 		<td><a th:href="|/cart/delete/${item.value.code}|">削除</a></td>
 
 	</tr>

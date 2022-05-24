@@ -72,8 +72,7 @@ public class AccountController {
 				mv.setViewName("newAccount");
 			}else {
 //			大丈夫な場合登録する
-		
-//		Usersテーブルに入力したデータを登録
+//	 		Usersテーブルに入力したデータを登録
 			Users user = new Users(name, address, tel, email, pass);
 			usersRepository.saveAndFlush(user);
 

@@ -11,27 +11,49 @@
 <h1 th:text="${item.name}"></h1>
 
 <!-- 選択した商品の詳細を表示-->
-<p>
-	<span><img th:src="|/${item.picture}|" /></span>
-	<br/>
-	<span th:text="${item.name}"></span>
-	<br/>
-	<span th:text="${item.categoryKey}"></span>
-	<br/>
-	<span th:text="${item.price}"></span>
-	<br/>
-	<span th:text="${item.stock}"></span>
-	<br/>
-</p>
+<table border="1">
+	<tr>
+
+		<td colspan="2">
+			<img th:src="|/${item.picture}|" />
+		</td>
+		
+	</tr>
+
+	<tr>
+		<th>カテゴリー</th>
+		<td th:text="${category.name}">		
+		</td>
+	</tr>
+	<tr>
+		<th>価格</th>
+		<td th:text="|${item.price}円|">
+		</td>
+	</tr>
+	<tr>
+		<th>在庫数</th>
+		<td th:text="${item.stock}">
+		</td>
+	</tr>
+
+</table>
 
 <p th:if="${item.sellerUserCode == session.userInfo.code}">
 	<a th:href="|/delete/${item.code}|">この商品を削除</a>
 	<a th:href="|/item/edit/${item.code}|">この商品を更新</a>
 </p>
+<div th:if="${item.sellerUserCode != session.userInfo.code}">
+	<!-- <a th:href="|/cart/add/${item.code}|">カートに追加</a> -->
+	<form th:action="|/cart/add/${item.code}|">
+		<select name="quantity">
+			<option th:each="i : ${#numbers.sequence(1,item.stock)}"
+				th:value="${i}" th:text="|${i}個|"></option>
+		</select>
+		<input type="submit" value="カートに追加" >
+	</form>
+</div>
 
 <p>
-		
-	<a th:href="|/cart/add/${item.code}|">カートに追加</a>
 	<a href="/itemList">商品一覧に戻る</a>
 </p>
 

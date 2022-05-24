@@ -17,7 +17,14 @@
 	<form th:action="|/item/edit/${item.code}|" method="post">
 	
 		<p>商品名：<input type="text" name="name" th:value="${item.name}"/></p>
-		<p>カテゴリー：<input type="text" name="categoryKey" th:value="${item.categoryKey}" /></p>
+		<p>カテゴリー：	<select name="categoryKey">
+							<option value="">カテゴリを選択</option>
+							<option th:each="category: ${categoriesList}"
+									 th:value="${category.code}"
+									 th:text="${category.name}"
+									 th:selected="${item.categoryKey == category.code}"
+									 ></option>
+						</select></p>
 		<p>価格：<input type="text" name="price" th:value="${item.price}"/></p>
 		<p>画像：<input type="text" name="picture" th:value="${item.picture}"/></p>
 		<p>在庫数：<input type="text" name="stock" th:value="${item.stock}"/></p>

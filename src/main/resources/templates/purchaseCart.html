@@ -22,8 +22,8 @@
 		<td th:text="${item.value.code}"></td>
 		<td th:text="${item.value.name}"></td>
 		<td th:text="${item.value.price}"></td>
-		<td th:text="${item.value.stock}"></td>
-		<td th:text="${item.value.price*item.value.stock}"></td>
+		<td th:text="${item.value.quantity}"></td>
+		<td th:text="${item.value.price*item.value.quantity}"></td>
 
 	</tr>
 	
@@ -55,6 +55,8 @@
 	<!-- 	<a href="/purchaseCartResult">この内容で注文"</a> -->
 		<input type="submit" value="この内容で注文">
 	</form>
+		<p><a href="/confirmCart">カート内を確認</a></p>
+		<a href="/itemList">商品一覧に戻る</a>
 
 
 

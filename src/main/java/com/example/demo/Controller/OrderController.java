@@ -1,6 +1,9 @@
 package com.example.demo.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +19,7 @@ import com.example.demo.Entity.Order;
 import com.example.demo.Entity.OrderDetail;
 import com.example.demo.Entity.Users;
 import com.example.demo.Repository.CategoriesRepository;
+import com.example.demo.Repository.ItemsRepository;
 import com.example.demo.Repository.OrderDetailRepository;
 import com.example.demo.Repository.OrderRepository;
 import com.example.demo.Repository.UsersRepository;
@@ -37,6 +41,9 @@ public class OrderController {
 	
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
+	
+	@Autowired
+	ItemsRepository itemsRepository;
 	
 	
 //	購入する商品のリザルトとユーザー情報の表示
@@ -64,11 +71,20 @@ public class OrderController {
 //		オーダー情報の登録（orderへの登録）
 		Order order = new Order(user_code, new Date(), cart.getTotal());
 		int order_code = orderRepository.saveAndFlush(order).getCode();
+		
 //		オーダー詳細情報の登録（orderDetailへの登録）カートのアイテム一覧を登録
-		for (Items item:cart.getItems().values()) {
-			OrderDetail orderDetail= new OrderDetail(order_code, item.getCode(), item.getStock());
-			orderDetailRepository.saveAndFlush(orderDetail);
+		Map<Integer, Items> items= cart.getItems();
+		List<OrderDetail> orderDetails = new ArrayList<>();
+		List<Items> updateitems = new ArrayList<>();
+		for (Items item:items.values()) {
+			orderDetails.add(new OrderDetail(order_code, item.getCode(), item.getStock()));
+			item.setStock(item.getStock() - item.getQuantity());
+			updateitems.add(item);
 		}
+		orderDetailRepository.saveAllAndFlush(orderDetails);
+		itemsRepository.saveAllAndFlush(updateitems);
+		
+		session.removeAttribute("cart");
 		mv.setViewName("purchaseCartResult");
 		
 		return mv;
