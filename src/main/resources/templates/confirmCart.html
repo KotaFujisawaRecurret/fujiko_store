@@ -2,42 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
+
 <title>カート内の商品</title>
 </head>
 <body>
+	<div class="head">
+		<a href="/logout"><span class="header">ログアウト</span> </a>
+	</div>
 	<h1>カート内の商品</h1>
-	
-<table border="1">
-	<p th:text="${message}"></p>
-	<!-- タイトル -->
-	<tr>
-		<th>No</th>
-		<th>商品名</th>
-		<th>価格</th>
-		<th>個数</th>
-		<th>小計</th>
-		<th></th>
-	</tr>
-	<!-- アイテム一覧　-->	
-	<tr th:each="item : ${items}">
-		<td th:text="${item.value.code}"></td>
-		<td th:text="${item.value.name}"></td>
-		<td th:text="${item.value.price}"></td>
-		<td th:text="${item.value.quantity}"></td>
-		<td th:text="${item.value.price*item.value.quantity}"></td>
-		<td><a th:href="|/cart/delete/${item.value.code}|">削除</a></td>
+	<div class="form">
+		<table class="table" th:if="${items.size>0}" border="1">
+			<p th:text="${message}"></p>
+			<!-- タイトル -->
+			<tr>
+				<th>No</th>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>個数</th>
+				<th>小計</th>
+				<th></th>
+			</tr>
+			<!-- アイテム一覧　-->
+			<tr th:each="item : ${items}">
+				<td th:text="${item.value.code}"></td>
+				<td th:text="${item.value.name}"></td>
+				<td th:text="${item.value.price}"></td>
+				<td th:text="${item.value.quantity}"></td>
+				<td th:text="${item.value.price*item.value.quantity}"></td>
+				<td><a th:href="|/cart/delete/${item.value.code}|">削除</a></td>
+			</tr>
 
-	</tr>
-	
-	<!-- 総計 -->
-	<tr>
-		<td colspan="5" align="right" th:text="|総計：${total}|"> </td>
-		<td></td>
-	</tr>
-</table>
+			<!-- 総計 -->
+			<tr>
+				<td colspan="5" align="right" th:text="|総計：${total}|"></td>
+				<td></td>
+			</tr>
+		</table>
 
-	<a href="/purchaseCart">カート内の商品を購入する</a>
-	<a href="/itemList">商品一覧に戻る</a>
+		<p th:if="${items.size==0}">カートに追加商品はありません。</p>
 
+		<p>
+			<a href="/purchaseCart" th:if="${items.size!=0}"><button>カート内の商品を購入する</button></a>
+		</p>
+		<a href="/itemList">商品一覧に戻る</a>
+	</div>
 </body>
 </html>

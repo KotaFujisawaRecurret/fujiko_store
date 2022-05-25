@@ -2,33 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>出品ページ</title>
 </head>
+
 <body>
+	<div class= "head">
+		<span class= "header">
+		<a href="/itemList" >商品一覧に戻る</a>
+		</span>
+	</div>	
 
-<h1>商品出品ページ</h1>
-
-	<span th:text="${message}" style="color: red;"></span>
-	<form action="/addItem" method="post">
+	<div class="form">
+		<h1>商品出品ページ</h1>
 	
-		<p>商品名：<input type="text" name="name"/></p>
-		<p>カテゴリー：	<select name="categoryKey">
+		<span th:text="${message}" style="color: red;"></span>
+		<form action="/addItem" method="post">
+			
+			<div class="form-input">
+				<p>商品名<br/>
+				<input class="inputDt" type="text" name="name"/></p>
+			</div>
+			<div class="form-input">
+				<p>カテゴリー
+					<br/>
+						<select class="select" name="categoryKey">
 							<option value="">カテゴリを選択</option>
 							<option th:each="category: ${categoriesList}"
 									 th:value="${category.code}"
 									 th:text="${category.name}"
 									 ></option>
-						</select></p>
-		<p>価格：<input type="text" name="price"/></p>
-		<p>画像：<input type="text" name="picture"/></p>
-		<p>在庫数：<input type="text" name="stock"/></p>
-		<p>配達日数：<input type="text" name="delivaryDays"/></p>
+						</select>
+						</p>
+			</div>
+			<div class="form-input">
+				<p>価格<br/>
+				<span class="detail">(2,000,000,000円以下で入力してください)</span><input class="inputDt" type="text" name="price"/></p>
+			</div>
+			<div class="form-input">
+				<p>画像<br/>
+				<input class="inputDt" type="text" name="picture"/></p>
+			</div>
+			<div class="form-input">
+				<p>在庫数<br/>
+				<input class="inputDt" type="text" name="stock"/></p>
+			</div>
+			<div class="form-input">
+				<p>配達日数<br/>
+				<input class="inputDt" type="text" name="delivaryDays"/></p>
+			</div>
+			
+			<p class="submit"><input class="submit-button" type="submit" value="出品する"></p>
 		
-		<p><input type="submit" value="出品する"></p>
-	
-	</form>
-	
-	<a href="/itemList">商品一覧に戻る</a>
-
+		</form>
+		
+	</div>
 </body>
 </html>

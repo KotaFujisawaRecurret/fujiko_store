@@ -2,14 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>購入完了</title>
 </head>
 <body>
 
 <h1>購入が完了しました。</h1>
 
-	<a href="/itemList">商品一覧に戻る</a>
-	<a href="/logout">ログアウト</a>
+	<div class="form">
+	
+		<p>
+			<a href="/itemList"  class="selectBorder">商品一覧に戻る</a>		</p>
+		<p>
+			<a href="/logout"  class="selectBorder">ログアウト</a>
+		</p>
+	</div>
+	
 
 </body>
 </html>

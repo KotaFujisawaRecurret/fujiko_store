@@ -2,21 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>アカウント情報の更新</title>
 </head>
 <body>
+	<div class="head">
+		<a href="/logout"><span class="header">ログアウト</span> </a>
+	</div>
 	<h1>アカウント情報の更新</h1>
 	<span th:text="${message}" style="color: red;"></span>
-	<form th:action="|/editAccount/${session.userInfo.code}|" method="post">
-	
-		<p>名前：<input type="text" name="name" th:value="${session.userInfo.name}"/></p>
-		<p>住所：<input type="text" name="address" th:value="${session.userInfo.address}"/></p>
-		<p>電話番号：<input type="text" name="tel" th:value="${session.userInfo.tel}"/></p>
-		<p>メールアドレス：<input type="text" name="email" th:value="${session.userInfo.email}"/></p>
-		
-		<p><input type="submit" value="更新"></p>
-	
-	</form>
+	<div class="form">
+		<form th:action="|/editAccount/${session.userInfo.code}|"
+			method="post">
+			<div class="form-input">
+				<p>
+					名前：<input class="inputDt" type="text" name="name"
+						th:value="${session.userInfo.name}" />
+				</p>
 
+			</div>
+			<div class="form-input">
+				<p>
+					住所：<input class="inputDt" type="text" name="address"
+						th:value="${session.userInfo.address}" />
+				</p>
+				<p>
+					電話番号：<input class="inputDt" type="text" name="tel"
+						th:value="${session.userInfo.tel}" />
+				</p>
+
+			</div>
+			<div class="form-input">
+				<p>
+					メールアドレス：<input class="inputDt" type="text" name="email"
+						th:value="${session.userInfo.email}" />
+				</p>
+			</div>
+
+			<p class="submit">
+				<input class="submit-button" type="submit" value="更新">
+			</p>
+			<p>
+				<a href="/accountInfo">更新せずに戻る</a>
+			</p>
+		</form>
+	</div>
 </body>
 </html>

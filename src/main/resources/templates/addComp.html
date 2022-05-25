@@ -2,15 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>カートに追加完了</title>
 </head>
 <body>
 	<h1>商品がカートに追加されました。</h1>
 
+	<div class="form">
 	<p>
-		<a href="/confirmCart">カート内を確認する</a> 
-		<a href="/itemList">商品一覧に戻る</a>
-	</p>
+		<a href="/confirmCart" class="selectBorder">カート内を確認する</a> 
+		</p>
+		<p>
+		<a href="/itemList" class="selectBorder">商品一覧に戻る</a>
+		</p>
+	</div>
 
 </body>
 </html>

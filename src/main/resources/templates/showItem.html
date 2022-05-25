@@ -2,61 +2,70 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
+
 <title>商品一覧</title>
 </head>
 <body>
-	<span><a href="/logout">ログアウト</a></span>
-	<span><a href="/accountInfo">ユーザー情報の確認</a></span>
+	<div class= "head">
+	<a href="/accountInfo"><span class="header">ユーザー情報の確認</span>	</a>
+	<a href="/confirmCart"><span class="header">カート内を確認</span>	</a>
+	<a href="/addItem"><span class="header">商品を出品する</span>	</a>
+	<a href="/logout"><span class="header">ログアウト</span>	</a>
+	</div>
+
+
+
+	
+
 	
 	<p th:if="${addItemResult}" style="border-bottom: 1px solid gray;">
-		<span>商品の登録が完了しました</span>
+		<span>メッセージ：商品の登録が完了しました</span>
 	</p>
 	
 	<p th:if="${deleteItemResult}"style="border-bottom: 1px solid gray;">
-		<span>商品が削除されました</span>
+		<span>メッセージ：商品が削除されました</span>
 	</p>
 	
 	<!-- TODO session情報に変換 -->
-	<p th:text="|いらっしゃいませ${session.userInfo.name}さん|"></p>
+	<p th:text="|いらっしゃいませ！！${session.userInfo.name}さん|"></p>
 	<br/>
 	
-	<form action="/search" method="post">
-		<input type="text" name="search" placeholder="検索" />
-		<input type="submit"value="検索"/>
-	</form>
+	<a href="/itemList"><button class="showAll">すべての商品を表示</button></a>
+	<div class="search">
+		<form action="/search" method="post" class="searchForm">
+			<input class="input"type="text" name="search" placeholder="検索" />
+			<input class="input-submit"type="submit"value="検索"/>
+		</form>
+		<span th:text="${message}"></span>
+		<form action="/showItem" class="searchForm">
+			<select class="input" name="categoryCode" >
+				<option value="0">カテゴリを選択</option>
+				<option th:each="category: ${categoriesList}"
+						 th:value="${category.code}"
+						 th:text="${category.name}"
+						 ></option>
+			</select>
+			<input class="input-submit" type="submit" value="カテゴリーから検索する">
+		</form>
+	</div>
 	
-
-	<p><a href="/confirmCart">カート内を確認</a></p>
-	<p><a href="/itemList">すべての商品を表示</a></p>
-	<p th:text="${message}"></p>
-	<form action="/showItem">
-		<select name="categoryCode">
-			<option value="">カテゴリを選択</option>
-			<option th:each="category: ${categoriesList}"
-					 th:value="${category.code}"
-					 th:text="${category.name}"
-					 ></option>
-		</select>
-		<input type="submit" value="検索する">
-	</form>
-	
-	<p><a href="/addItem">商品を出品する</a>
-	
-	<table border="1"  th:each="item:${itemList}" style="width: 100%;">
-		<tr>
-			<td> <img th:if="${item.stock} <= 0" src="kin3.jpg" /> 
-			<img th:unless="${item.stock} <= 0" th:src="|/${item.picture}|" /></td>
-		</tr>
-		<tr>
-			<td>
-				<span th:text="|商品名：${item.name}|"></span>
-				<span th:text="|在庫数：${item.stock}|"></span>
-			</td>
-			<td th:text="|価格：${item.price}|"></td>
-			<td><a th:href="|/itemDetail/${item.code}|">詳細を確認</a></td>
-			
-		</tr> 
-	</table>
+	<div class="showItem">
+		
+		<section th:each="item:${itemList}" class="card">
+		
+		  <img class="card-img"th:if="${item.stock} <= 0" src="kin3.jpg">
+		  <img class="card-img" th:unless="${item.stock} <= 0" th:src="|/${item.picture}|">
+		  <div class="card-content">
+		    <h2 class="card-title" th:text="|${item.name}|"></h2>
+		    <p class="card-text" th:text="|価格：${item.price}|"></p>
+		    <p class="card-text" th:text="|在庫数：${item.stock}|"></p>
+		  </div>
+		  <div class="card-link">
+		    <a th:href="|/itemDetail/${item.code}|">詳細を確認</a>
+		  </div>
+		</section>
+	</div>
 
 </body>
 </html>

@@ -2,25 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>新規登録</title>
 </head>
 <body>
-	<h1>新規登録</h1>
-	<span th:text="${message}" style="color: red;"></span>
-	<form action="/newAccount" method="post">
-	
-		<p>名前：<input type="text" name="name"/></p>
-		<p>住所：<input type="text" name="address"/></p>
-		<p>電話番号：<input type="text" name="tel"/></p>
-		<p>メールアドレス：<input type="text" name="email"/></p>
-		<p>パスワード：<input type="text" name="pass"/></p>
+	<div class= "head">
+		<span><a href="/login" class= "header">ログイン</a></span>
+
+	</div>
+	<div class="form" >
+	<div class="form-input" >
+		<h1>新規登録</h1>
+		<span th:text="${message}" style="color: red;"></span>
+		<form action="/newAccount" method="post">
+			<div class="form-input">
+				<span>名前</span><br>
+				<span class="position-left"><input class="inputDt" type="text" name="name"/></span>
+			</div>
+			<div class="form-input">
+				<span>住所</span><br>
+				<span class="position-left"><input class="inputDt" type="text" name="address"/></span>
+			</div>
+			<div class="form-input">
+				<span>電話番号</span><br>
+				<span class="position-left"><input class="inputDt" type="text" name="tel"/></span>
+			</div>
+			<div class="form-input">
+				<span>メールアドレス</span><br>
+				<span class="position-left"><input class="inputDt" type="text" name="email"/></span>
+			</div>
+			<div class="form-input">
+				<span>パスワード</span><br>
+				<span class="position-left"><input class="inputDt" type="text" name="pass"/></span>
+			</div>
+			
+			<p class="submit"><input class="submit-button" type="submit" value="登録"></p>
+			
 		
-		<p><input type="submit" value="登録"></p>
-	
-	</form>
-	
-	<span><a href="/login">ログイン</a></span>
-	<br/>
-	<span><a href="/">戻る</a></span>
+		</form>
+		</div>
+				<br/>
+		<span><a href="/">戻る</a></span>
+
+	</div>
 </body>
 </html>

@@ -52,7 +52,7 @@ public class Cart {
 		total = 0;
 		for (Items item : items.values()) {
 
-			total += item.getPrice() * item.getStock();
+			total += item.getPrice() * item.getQuantity();
 		}
 
 	}

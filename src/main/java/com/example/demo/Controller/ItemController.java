@@ -76,27 +76,36 @@ public class ItemController {
 
 		return mv;
 	}
-
+//	検索したカテゴリーと一致する商品の一覧を表示
 	@RequestMapping(value = "/showItem")
-	public ModelAndView showItemByCategory(@RequestParam(name = "categoryCode") Integer categoriesCode,
+	public ModelAndView showItemByCategory(
+			@RequestParam(name = "categoryCode") Integer categoriesCode,
 			ModelAndView mv) {
+//		カテゴリー情報を取得
 		mv.addObject("categoriesList", categoriesRepository.findAll());
 
+//		アイテムのカテゴリーキーと検索したキーが一致するものをリストに入れる
 		List<Items> item = itemsRepository.findByCategoryKey(categoriesCode);
 		mv.addObject("itemList", item);
 		mv.setViewName("showItem");
-//		mv.setViewName("redirect:/itemList");
 		return mv;
 	}
 
+//	検索ボックスを使用して、商品を検索して一覧表示
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ModelAndView showItemBySearch(@RequestParam(name = "search") String searchStr, ModelAndView mv) {
+	public ModelAndView showItemBySearch(
+			@RequestParam(name = "search") String searchStr, 
+			ModelAndView mv) {
+		
+//		カテゴリー情報を取得
 		mv.addObject("categoriesList", categoriesRepository.findAll());
 
+//		検索ボックスに入れた情報が含まれる商品をItemsリストから取得し表示
 		List<Items> item = itemsRepository.findByNameContains(searchStr);
+		
 		mv.addObject("itemList", item);
 		mv.setViewName("showItem");
-//		mv.setViewName("redirect:/itemList");
+
 		return mv;
 	}
 
@@ -162,8 +171,9 @@ public class ItemController {
 
 //		アイテムのデータを取得
 		mv.addObject("item", itemsRepository.findById(code).get());
-
+//		カテゴリーの情報を取得
 		mv.addObject("categoriesList", categoriesRepository.findAll());
+
 
 		mv.setViewName("editItem");
 
@@ -183,9 +193,13 @@ public class ItemController {
 
 		mv.addObject("categoriesList", categoriesRepository.findAll());
 //		未入力チェック
-		if (isNull(name) == true || isNull(price) == true || isNull(picture) == true || isNull(stock) == true
-				|| isNull(categoryKey) == true || isNull(delivaryDays) == true) {
-
+		if (isNull(name) == true ||
+			isNull(price) == true || 
+			isNull(picture) == true || 
+			isNull(stock) == true || 
+			isNull(categoryKey) == true || 
+			isNull(delivaryDays) == true) {
+			mv.addObject("item", itemsRepository.findById(code).get());
 			mv.addObject("message", "すべての項目に入力をしてください");
 			mv.setViewName("editItem");
 		}
@@ -219,9 +233,8 @@ public class ItemController {
 	public ModelAndView deleteItem(@PathVariable("code") int code, ModelAndView mv) {
 //		選択した商品を削除
 		itemsRepository.deleteById(code);
-
 		itemsRepository.flush();
-
+//	処理完了メッセージを表示させるトリガー
 		session.setAttribute("deleteItemResult", true);
 
 //		カートの中身を表示させる
@@ -254,5 +267,12 @@ public class ItemController {
 
 		return item;
 	}
+	
+//	public void setItems(ModelAndView mv) {
+////		アイテムのデータを取得
+//		mv.addObject("item", itemsRepository.findById(code).get());
+////		カテゴリーの情報を取得
+//		mv.addObject("categoriesList", categoriesRepository.findAll());
+//	}
 
 }

@@ -23,6 +23,7 @@ import com.example.demo.Repository.ItemsRepository;
 import com.example.demo.Repository.OrderDetailRepository;
 import com.example.demo.Repository.OrderRepository;
 import com.example.demo.Repository.UsersRepository;
+import com.example.demo.service.ItemService;
 
 @Controller
 public class OrderController {
@@ -44,6 +45,10 @@ public class OrderController {
 	
 	@Autowired
 	ItemsRepository itemsRepository;
+	
+	@Autowired
+	ItemService itemService;
+	
 	
 	
 //	購入する商品のリザルトとユーザー情報の表示
@@ -85,6 +90,7 @@ public class OrderController {
 		itemsRepository.saveAllAndFlush(updateitems);
 		
 		session.removeAttribute("cart");
+
 		mv.setViewName("purchaseCartResult");
 		
 		return mv;

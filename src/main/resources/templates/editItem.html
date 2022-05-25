@@ -2,39 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>商品情報の更新</title>
 </head>
 <body>
-<h1>商品情報を更新</h1>
+	<div class= "head">
+			<a href="/logout"><span class="header">ログアウト</span>	</a>
+	</div>	
 
-	<span th:text="${message}"></span>
-<!-- 選択した商品名表示 -->
-<h1 th:text="${item.name}"></h1>
+		<h1>商品情報を更新</h1>
 
-<!-- 選択した商品の詳細を表示-->
+	<div class="form">
+		<span th:text="${message}"></span>
 
-	<span th:text="${message}" style="color: red;"></span>
-	<form th:action="|/item/edit/${item.code}|" method="post">
-	
-		<p>商品名：<input type="text" name="name" th:value="${item.name}"/></p>
-		<p>カテゴリー：	<select name="categoryKey">
-							<option value="">カテゴリを選択</option>
-							<option th:each="category: ${categoriesList}"
-									 th:value="${category.code}"
-									 th:text="${category.name}"
-									 th:selected="${item.categoryKey == category.code}"
-									 ></option>
-						</select></p>
-		<p>価格：<input type="text" name="price" th:value="${item.price}"/></p>
-		<p>画像：<input type="text" name="picture" th:value="${item.picture}"/></p>
-		<p>在庫数：<input type="text" name="stock" th:value="${item.stock}"/></p>
-		<p>配達日数：<input type="text" name="delivaryDays"th:value="${item.delivaryDays}"/></p>
-		
-		<p><input type="submit" value="更新する"></p>
-	
-	</form>
-	
-	<a href="/itemList">商品一覧に戻る</a>
+		<!-- 選択した商品の詳細を表示-->
+
+		<span th:text="${message}" style="color: red;"></span>
+		<form th:action="|/item/edit/${item.code}|" method="post">
+			<div class="form-input">
+				<p>
+					商品名<br/>
+					<input class="inputDt" type="text" name="name"
+						th:value="${item.name}" />
+				</p>
+			</div>
+			<div class="form-input">
+				<p>
+					カテゴリー<br/>
+					 <select class="select" name="categoryKey">
+						<option value="">カテゴリを選択</option>
+						<option th:each="category: ${categoriesList}"
+							th:value="${category.code}" th:text="${category.name}"
+							th:selected="${item.categoryKey == category.code}"></option>
+					</select>
+				</p>
+			</div>
+			<div class="form-input">
+				<p>
+					価格<br/>
+					<span class="detail">(2,000,000,000円以下で入力してください)</span><input class="inputDt" type="text" name="price"
+						th:value="${item.price}" />
+				</p>
+			</div>
+			<div class="form-input">
+				<p>
+					画像<br/>
+					<input class="inputDt" type="text" name="picture"
+						th:value="${item.picture}" />
+				</p>
+			</div>
+			<div class="form-input">
+				<p>
+					在庫数<br/>
+					<input class="inputDt" type="text" name="stock"
+						th:value="${item.stock}" />
+				</p>
+			</div>
+			<div class="form-input">
+				<p>
+					配達日数<br/>
+					<input class="inputDt" type="text" name="delivaryDays"
+						th:value="${item.delivaryDays}" />
+				</p>
+			</div>
+
+			<p class="submit">
+				<input class="submit-button" type="submit" value="更新する">
+			</p>
+		</form>
+		<p>
+		<a href="/itemList" >商品一覧に戻る</a>
+		</p>
+		</div>
 
 
 </body>

@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/index.css}" rel="stylesheet">
 <title>トップページ</title>
 </head>
 <body>
-	
-	<p>ようこそ</p>
-	<p><a href="/newAccount">新規登録</a></p>
-	<p><a href="/login">ログイン</a></p>
-
+	<div class="form">
+		<h1>ようこそ</h1>
+		<p><a href="/newAccount"><button>新規登録</button></a></p>
+		<p><a href="/login"><button>ログイン</button></a></p>
+	</div>
 </body>
 </html>
