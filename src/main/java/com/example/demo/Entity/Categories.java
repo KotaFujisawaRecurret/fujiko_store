@@ -23,10 +23,10 @@ public class Categories {
 		super();
 	}
 
-	public Categories(String name, Integer deleteFlag) {
+	public Categories(String name) {
 		super();
 		this.name = name;
-		this.deleteFlag = deleteFlag;
+		this.deleteFlag = 0;
 	}
 	
 	public Categories(Integer code, String name, Integer deleteFlag) {

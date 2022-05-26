@@ -12,29 +12,28 @@
 	<h1>アカウント情報の更新</h1>
 	<span th:text="${message}" style="color: red;"></span>
 	<div class="form">
-		<form th:action="|/editAccount/${session.userInfo.code}|"
-			method="post">
+		<form th:action="|/editAccount/${session.userInfo.code}|" method="post" >
 			<div class="form-input">
 				<p>
-					名前：<input class="inputDt" type="text" name="name"
+					名前<br/><input class="inputDt" type="text" name="name"
 						th:value="${session.userInfo.name}" />
 				</p>
 
 			</div>
 			<div class="form-input">
 				<p>
-					住所：<input class="inputDt" type="text" name="address"
+					住所<br/><input class="inputDt" type="text" name="address"
 						th:value="${session.userInfo.address}" />
 				</p>
 				<p>
-					電話番号：<input class="inputDt" type="text" name="tel"
+					電話番号<br/><input class="inputDt" type="text" name="tel"
 						th:value="${session.userInfo.tel}" />
 				</p>
 
 			</div>
 			<div class="form-input">
 				<p>
-					メールアドレス：<input class="inputDt" type="text" name="email"
+					メールアドレス<br/><input class="inputDt" type="text" name="email"
 						th:value="${session.userInfo.email}" />
 				</p>
 			</div>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.Entity.Categories;
 import com.example.demo.Entity.Items;
 import com.example.demo.Entity.Users;
 import com.example.demo.Repository.CategoriesRepository;
@@ -132,11 +133,13 @@ public class ItemController {
 
 //	商品を出品する処理
 	@RequestMapping(value = "/addItem", method = RequestMethod.POST)
-	public ModelAndView addItem(@RequestParam(name = "name", defaultValue = "") String name,
+	public ModelAndView addItem(
+			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(name = "price", defaultValue = "0") Integer price,
 			@RequestParam(name = "picture", defaultValue = "") String picture,
 			@RequestParam(name = "stock", defaultValue = "") Integer stock,
 			@RequestParam(name = "categoryKey", defaultValue = "0") Integer categoryKey,
+			@RequestParam(name = "newCategory", defaultValue = "") String categoryName,
 			@RequestParam(name = "delivaryDays", defaultValue = "0") Integer delivaryDays,
 
 			ModelAndView mv) {
@@ -145,7 +148,7 @@ public class ItemController {
 
 //		未入力チェック処理
 		if (isNull(name) == true || isNull(price) == true || isNull(picture) == true || isNull(stock) == true
-				|| isNull(categoryKey) == true || isNull(delivaryDays) == true) {
+				|| categoryKey < 0 || isNull(delivaryDays) == true) {
 
 			mv.addObject("message", "すべての項目に入力をしてください");
 			mv.setViewName("addItem");
@@ -153,6 +156,11 @@ public class ItemController {
 
 //		商品が登録して、メッセージと商品一覧を表示
 			Users user = (Users) session.getAttribute("userInfo");
+//			新規カテゴリーが入力された場合
+			if(!isNull(categoryName)) {
+				Categories category = new Categories(categoryName);
+				categoryKey = categoriesRepository.saveAndFlush(category).getCode();
+			}
 			Items item = new Items(name, price, picture, stock, categoryKey, delivaryDays, user.getCode());
 			itemsRepository.saveAndFlush(item);
 //			商品登録が行われたとき、完了メッセージを表示させるための準備
@@ -186,7 +194,8 @@ public class ItemController {
 			@RequestParam(name = "price", defaultValue = "0") Integer price,
 			@RequestParam(name = "picture", defaultValue = "") String picture,
 			@RequestParam(name = "stock", defaultValue = "") Integer stock,
-			@RequestParam(name = "categoryKey", defaultValue = "0") Integer categoryKey,
+			@RequestParam(name = "newCategory", defaultValue = "") String categoryName,
+			@RequestParam(name = "categoryKey", defaultValue = "-1") Integer categoryKey,
 			@RequestParam(name = "delivaryDays", defaultValue = "0") Integer delivaryDays,
 
 			ModelAndView mv) {
@@ -197,7 +206,7 @@ public class ItemController {
 			isNull(price) == true || 
 			isNull(picture) == true || 
 			isNull(stock) == true || 
-			isNull(categoryKey) == true || 
+			categoryKey < 0 || 
 			isNull(delivaryDays) == true) {
 			mv.addObject("item", itemsRepository.findById(code).get());
 			mv.addObject("message", "すべての項目に入力をしてください");
@@ -206,9 +215,16 @@ public class ItemController {
 
 //		入力されている場合、データを更新してアイテム一覧戻る
 		else {
-
+			
 			// findbyidでデータを取得
 			Items item = itemsRepository.findById(code).get();
+			
+//			新規カテゴリーが入力された場合categoriesRepositoryに保存してcategoryKeyを更新
+			if(!isNull(categoryName)) {
+				Categories category = new Categories(categoryName);
+				categoryKey = categoriesRepository.saveAndFlush(category).getCode();
+			}
+
 
 			// 更新項目に値をセット
 			item.setName(name);

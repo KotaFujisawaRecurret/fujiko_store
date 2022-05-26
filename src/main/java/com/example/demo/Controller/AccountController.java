@@ -151,7 +151,16 @@ public class AccountController {
 			@RequestParam(name="tel") String tel,
 			@RequestParam(name="email") String email,
 			ModelAndView mv) {
-		
+		if (isNull(name) == true || 
+			isNull(address) == true ||
+			isNull(tel) == true ||
+			isNull(email) == true ) {
+			
+			mv.addObject("message", "すべての項目に入力をしてください");
+			mv.setViewName("editAccount");
+
+
+		} else {
 		Users user = usersRepository.findById(code).get();
 //		更新項目に値を入れる
 		user.setName(name);
@@ -161,10 +170,10 @@ public class AccountController {
 
 
 		usersRepository.saveAndFlush(user);
-		
+		session.setAttribute("userInfo", user);
+		}
 		mv.setViewName("/accountInfo");
 		
-		session.setAttribute("userInfo", user);
 		
 		return mv;
 	}

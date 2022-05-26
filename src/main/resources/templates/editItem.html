@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <link th:href="@{/css/index.css}" rel="stylesheet">
 <title>商品情報の更新</title>
+<script type="text/javascript" src="/JavaScript/newCategory.js"></script>
+<script type="text/javascript" src="/JavaScript/inputTypeCheck.js"></script>
+
 </head>
 <body>
 	<div class= "head">
@@ -13,12 +16,10 @@
 		<h1>商品情報を更新</h1>
 
 	<div class="form">
-		<span th:text="${message}"></span>
-
 		<!-- 選択した商品の詳細を表示-->
 
 		<span th:text="${message}" style="color: red;"></span>
-		<form th:action="|/item/edit/${item.code}|" method="post">
+		<form th:action="|/item/edit/${item.code}|" method="post"  onsubmit="return chk01(event);">
 			<div class="form-input">
 				<p>
 					商品名<br/>
@@ -27,41 +28,60 @@
 				</p>
 			</div>
 			<div class="form-input">
-				<p>
-					カテゴリー<br/>
-					 <select class="select" name="categoryKey">
-						<option value="">カテゴリを選択</option>
-						<option th:each="category: ${categoriesList}"
-							th:value="${category.code}" th:text="${category.name}"
-							th:selected="${item.categoryKey == category.code}"></option>
-					</select>
-				</p>
+				<p>カテゴリー
+					<br/>
+						<select class="select" name="categoryKey" onchange="onChangeCategory(event)">
+							<option value="">カテゴリを選択</option>
+							<option th:each="category: ${categoriesList}"
+									 th:value="${category.code}"
+									 th:text="${category.name}"
+									 th:selected="${item.categoryKey == category.code}"
+									 ></option>
+							<option value="0">新しいカテゴリーを追加</option>
+						</select>
+						</p>
 			</div>
+			<!-- 追加機能 -->
+			<div class="form-input" id="newCategoryDiv" style="display: none">
+					<p>新しいカテゴリーを入力してください<br/>
+					<input class="inputDt" type="text" name="newCategory" id="newCategory"/></p>
+			</div>
+			
+
+
 			<div class="form-input">
 				<p>
-					価格<br/>
-					<span class="detail">(2,000,000,000円以下で入力してください)</span><input class="inputDt" type="text" name="price"
+					価格
+					<span class="detail">(数値かつ2,000,000,000円以下で入力してください)
+					<br/>
+					</span><input class="inputDt" type="text" name="price" id="price"
 						th:value="${item.price}" />
 				</p>
 			</div>
 			<div class="form-input">
 				<p>
-					画像<br/>
+					画像
+					<span class="detail">(画像URLを入力してください)</span>
+					<br/>
 					<input class="inputDt" type="text" name="picture"
 						th:value="${item.picture}" />
 				</p>
 			</div>
 			<div class="form-input">
 				<p>
-					在庫数<br/>
-					<input class="inputDt" type="text" name="stock"
+					在庫数
+					<span class="detail">(数値で入力してください)</span>
+					<br/>
+					<input class="inputDt" type="text" name="stock" id="stock"
 						th:value="${item.stock}" />
 				</p>
 			</div>
 			<div class="form-input">
 				<p>
-					配達日数<br/>
-					<input class="inputDt" type="text" name="delivaryDays"
+					配達日数
+					<span class="detail">(数値で入力してください)</span>
+					<br/>
+					<input class="inputDt" type="text" name="delivaryDays" id="delivaryDays"
 						th:value="${item.delivaryDays}" />
 				</p>
 			</div>

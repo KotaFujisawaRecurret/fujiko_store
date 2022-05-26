@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <link th:href="@{/css/index.css}" rel="stylesheet">
 <title>出品ページ</title>
+<script type="text/javascript" src="/JavaScript/newCategory.js"></script>
+<script type="text/javascript" src="/JavaScript/inputTypeCheck.js"></script>
 </head>
 
 <body>
@@ -17,7 +19,7 @@
 		<h1>商品出品ページ</h1>
 	
 		<span th:text="${message}" style="color: red;"></span>
-		<form action="/addItem" method="post">
+		<form action="/addItem" method="post"  onsubmit="return chk01(event);">
 			
 			<div class="form-input">
 				<p>商品名<br/>
@@ -26,30 +28,45 @@
 			<div class="form-input">
 				<p>カテゴリー
 					<br/>
-						<select class="select" name="categoryKey">
+						<select class="select" name="categoryKey" onchange="onChangeCategory(event)">
 							<option value="">カテゴリを選択</option>
 							<option th:each="category: ${categoriesList}"
 									 th:value="${category.code}"
 									 th:text="${category.name}"
 									 ></option>
+							<option value="0">その他</option>
 						</select>
 						</p>
 			</div>
+			<!-- 追加機能 -->
+			<div class="form-input" id="newCategoryDiv" style="display: none">
+					<p>新しいカテゴリーを入力してください<br/>
+					<input class="inputDt" type="text" name="newCategory" id="newCategory"/></p>
+			</div>
+			
 			<div class="form-input">
-				<p>価格<br/>
-				<span class="detail">(2,000,000,000円以下で入力してください)</span><input class="inputDt" type="text" name="price"/></p>
+				<p>価格
+				<span class="detail">(数値かつ2,000,000,000円以下で入力してください)</span>
+				<br/>
+				<input class="inputDt" type="text" name="price" id="price"/></p>
 			</div>
 			<div class="form-input">
-				<p>画像<br/>
+				<p>画像
+				<span class="detail">(画像URLを入力してください)</span>
+				<br/>
 				<input class="inputDt" type="text" name="picture"/></p>
 			</div>
 			<div class="form-input">
-				<p>在庫数<br/>
-				<input class="inputDt" type="text" name="stock"/></p>
+				<p>在庫数
+				<span class="detail">(数値で入力してください)</span>
+				<br/>
+				<input class="inputDt" type="text" name="stock" id="stock"/></p>
 			</div>
 			<div class="form-input">
-				<p>配達日数<br/>
-				<input class="inputDt" type="text" name="delivaryDays"/></p>
+				<p>配達日数
+				<span class="detail">(数値で入力してください)</span>
+				<br/>
+				<input class="inputDt" type="text" name="delivaryDays" id="delivaryDays"/></p>
 			</div>
 			
 			<p class="submit"><input class="submit-button" type="submit" value="出品する"></p>
